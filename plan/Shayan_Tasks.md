@@ -1,6 +1,6 @@
 # Member A: Memory (M1 rolling summary)
 
-Name: ______ · Branch: `a-memory` · Marks you mainly carry: Step 2 (13), the Step 5 memory experiment (6), plus your share of Steps 4 and 6
+Name: Shayan · Branch: `a-memory` · Marks you mainly carry: Step 2 (13), the Step 5 memory experiment (6), plus your share of Steps 4 and 6
 
 This file is all you need. You never wait for B or C: none of your runs needs the trained adapter.
 
@@ -120,13 +120,15 @@ Only once everything above is done. On branch `open-arena`, which is **never mer
 | Mon 30 Nov | proof-read the whole report · viva walkthrough in the evening |
 
 ## Your checklist
-- [ ] Knob committed, `tests/test_m1.py` passes
+**Status 26 Nov (local prep in this repo, not committed yet):** knob is in `m1_summary.py` and `tests/test_m1.py` passes (10/10, incl. `test_ablation_budget_knob`); a mock run with `QA_M1_BUDGET` works through the harness. Ready: `notebooks/run_A.ipynb` (A2/A3/A5/A6 cells), `report/parts/memory.tex` and `contrib_A.tex` (final), `ablation.tex` and `trace_failure.tex` (layout with `\todo{}` for the real numbers), `errors/ERRORS_A.csv` (header). Left: everything that needs the T4 or the secret test.
+
+- [ ] Knob committed, `tests/test_m1.py` passes (passes; commit after C's first commit)
 - [ ] `results/G10_M1+A0_dev_s{13,42,2026}.*` and `results/G10_M1+A0_test_s{13,42,2026}.*` committed (real model, no `MOCK BACKEND` warning in the `.json`)
 - [ ] `results/G10ABL256_*` and `results/G10ABL128_*` committed
 - [ ] All your traces copied to Drive `G10/A/`
 - [ ] `MEMORY.md`: 3 real examples, one of them a correction, one page
 - [ ] `errors/ERRORS_A.csv`: 20 rows
-- [ ] 4 report part files
+- [ ] 4 report part files (memory + contrib done; ablation + trace_failure need hf numbers)
 - [ ] Told C what to put in `DEVIATIONS.md`
 
 ## Viva prep (you're asked about everything, not just memory)

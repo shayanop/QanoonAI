@@ -1,0 +1,22 @@
+% Member A (Shayan). Fill from:
+%   python -m harness.summarize --group G10       --split dev   (row M1+A0 = budget 768)
+%   python -m harness.summarize --group G10ABL256 --split dev
+%   python -m harness.summarize --group G10ABL128 --split dev
+\begin{table}[h]
+\centering\small
+\caption{Memory budget ablation for M1+A0 (practice set, mean of \todo{3 seeds / seed 13 only}, 95\% CI). The budget is capped with \texttt{QA\_M1\_BUDGET}; 768 is the config default.}
+\label{tab:\groupid-ablation}
+\begin{tabular}{lccc}
+\toprule
+Memory budget (tokens) & Score & Memory recall & Tokens/turn \\
+\midrule
+128 & \todo{} & \todo{} & \todo{} \\
+256 & \todo{} & \todo{} & \todo{} \\
+768 (default) & \todo{} & \todo{} & \todo{} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\todo{2--3 sentences. Our memory is usually 60--120 tokens, so 256 should cut almost nothing; say
+whether that held. At 128 the summary is dropped first and key facts other than turn 1 next: say
+whether memory recall and score fell, and by how much against the CI width.}

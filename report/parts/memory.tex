@@ -1,0 +1,48 @@
+% Member A (Shayan). Method -> Memory. Condensed from MEMORY.md; code: agent/memory/m1_summary.py
+Our memory (M1, \texttt{agent/memory/m1\_summary.py}) keeps three plain-text items per session.
+
+\paragraph{What is stored.}
+(i)~\emph{Key facts}: up to 6 user messages kept word for word as \texttt{(turn, text)}, each clipped
+to 300 characters. (ii)~A \emph{summary}: one narrative of at most 150 words, rewritten after every
+turn by the same backbone model (same seed) with a dedicated summary prompt. (iii)~\emph{Cited ids}:
+document ids the bot cited in an earlier turn \emph{and} had really retrieved or read from memory in
+that turn. Retrieved documents, scores, prompts, raw model output and citation flags stay in graph
+state and traces only; they can be fetched again, and storing them would turn the bot's guesses into
+``facts''.
+
+\paragraph{Write rules.}
+A user message becomes a key fact on turn~1, or when it contains an \emph{anchor} that no key fact
+holds yet as a whole value. Anchors are matched with regular expressions: section references
+(\texttt{section 72}, \texttt{s.~489-F}, \texttt{u/s 302}), the seven Act names and their codes,
+dates, years, document ids (\texttt{PPC-379}, \texttt{SHC-140894}) and money amounts
+(\emph{loss guard}: a bad rewrite can never lose a date or a section number). Questions that only
+point back (``based on what I told you at the start\ldots?'') are not stored. If clipping cuts an
+anchor off, it is appended to the line. A 7th fact evicts the oldest one except turn~1.
+The model sees the previous summary, the new user message, the bot answer (300 characters) and its
+citations. A rewrite is rejected by a \emph{drift guard} if it is empty, contains JSON, exceeds 220
+words, or contains a number, section number, document id or Act name absent from the previous
+summary, the key facts and the new turn; it is also rejected if the model call fails. The fallback
+is the previous summary plus one line \texttt{User (turn N): <message>}, oldest lines dropped past
+150 words. Cited ids are added every turn, grounded ones only.
+
+\paragraph{Corrections.}
+The summary prompt asks the model to replace corrected values. Independently, when exactly one old and
+one new date, section or amount can be identified, the old value is replaced in both the key facts and
+the summary. The old value is the stored value following ``not'', ``rather than'' or ``instead of''
+(``5 May 2024, not 3 March 2025''), or, if the message says ``correction'', ``I meant'' or ``my
+mistake'', the single stored value of that kind. ``Actually'' or ``sorry'' alone never trigger a
+replacement. Unclear corrections are stored as a new key fact under a header stating that later lines
+override earlier ones.
+
+\paragraph{Read rules.}
+The memory text is: a header, the key facts as \texttt{- (turn N) text} (turn~1 first, then oldest to
+newest), \texttt{Assistant cited earlier: <ids>} (last 8), then \texttt{Summary:} and the summary.
+There is no ranking against the query. Over the 768-token budget, summary lines are dropped first
+(oldest first), then key facts other than turn~1; as a last resort the text is cut from the end.
+The memory also returns a \emph{retrieval hint} for the fixed BM25 retriever: about 40 topic words
+from the key facts only (turn~1, then newest; dates, amounts and chat filler removed), written twice
+so the question's own filler words do not outweigh them, plus the document id implied by
+``section~N of Act~X'' (e.g.\ \texttt{TPA-72}). The hint is empty when the question names its own
+section or document id and does not point back (``this section'', ``my matter''). On the 546 T3/T4
+sessions of dev and train, the gold document ranked first in 92\% of cases with the hint (top~5:
+99\%), against 81\% with the raw turn-1 text and 0\% with no hint.
