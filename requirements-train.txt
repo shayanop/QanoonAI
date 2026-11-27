@@ -1,0 +1,4 @@
+# Extra packages for Step 3 (fine-tuning). Installed by the Colab notebook.
+-r requirements.txt
+trl>=0.20,<1
+datasets>=2.19

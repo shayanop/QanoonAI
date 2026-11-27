@@ -1,0 +1,140 @@
+% =====================================================================
+% QanoonArena - AI-4016 Assignment 3 - Step 6 paper section template
+% Copy to report/section.tex, fill in, and compile:  pdflatex section.tex
+% Keep the headings, table layouts and macros: your section is merged
+% into the class paper as it is. Limit: 3 pages plus appendix.
+% =====================================================================
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}          % Times
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+
+% ---- fill these in ---------------------------------------------------
+\newcommand{\groupid}{G00}
+\newcommand{\memtype}{M2 (structured fact memory)}
+\newcommand{\traintype}{A1 (QLoRA SFT)}
+\newcommand{\members}{Member One, Member Two, Member Three}
+% ----------------------------------------------------------------------
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+
+\title{QanoonArena: \memtype{} with \traintype{}\\[2pt]\large Group \groupid{}}
+\author{\members}
+\date{AI-4016 Agentic AI, Fall 2026, FAST-NUCES Islamabad}
+
+\begin{document}
+\maketitle
+
+\section{Method}
+\label{sec:\groupid-method}
+
+\subsection{Memory}
+\todo{What your memory stores, the write policy (what is written, when, what is never written,
+how corrections are handled), and the read policy (what is read back, how it is ranked, what is
+dropped under the budget). Precise enough that another group could rebuild it.}
+
+\subsection{Training}
+\todo{Data (number of examples, how they were built, leakage check), hyperparameters (must match
+\texttt{config.yaml}), and for A2 how the rejected answers were produced. Adapter link and hash.}
+
+\subsection{Citation monitor}
+\todo{What \texttt{cite\_check} does with ungrounded citations: flag, drop or block, and why.}
+
+\section{Results}
+\label{sec:\groupid-results}
+
+Table~\ref{tab:\groupid-main} gives the four versions on the practice set, the mean over the three
+fixed seeds, with 95\% bootstrap confidence intervals over conversations. Paste the rows printed
+by \texttt{python -m harness.summarize --group \groupid{} --split dev --latex}.
+
+\begin{table}[h]
+\centering\small
+\caption{Four versions of group \groupid{} on the practice set (mean of 3 seeds, 95\% CI).}
+\label{tab:\groupid-main}
+\begin{tabular}{lcccccr}
+\toprule
+Version & Score & Accuracy & Citation F1 & Abstain F1 & Memory recall & Tokens/turn \\
+\midrule
+M0+A0 & \todo{} & & & & & \\
+Mx+A0 & & & & & & \\
+M0+Ax & & & & & & \\
+Mx+Ax & & & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Effects.} Memory effect: \todo{+x.xx [a, b]} points. Training effect: \todo{+x.xx [a, b]}
+points. Interaction: \todo{+x.xx [a, b]} points. \todo{One sentence each: do memory and training add up,
+overlap or interfere?}
+
+\begin{table}[h]
+\centering\small
+\caption{Ablation inside the memory variant (practice set, best adapter).}
+\label{tab:\groupid-ablation}
+\begin{tabular}{lccc}
+\toprule
+Setting & Score & Memory recall & Tokens/turn \\
+\midrule
+\todo{e.g. budget 256} & & & \\
+\todo{budget 768 (default)} & & & \\
+\todo{budget 1536} & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering\small
+\caption{Cost of each version.}
+\label{tab:\groupid-cost}
+\begin{tabular}{lccc}
+\toprule
+Version & Latency p50 (ms) & Latency p95 (ms) & Training GPU-hours \\
+\midrule
+M0+A0 & & & 0 \\
+Mx+A0 & & & 0 \\
+M0+Ax & & & \\
+Mx+Ax & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Analysis}
+\label{sec:\groupid-analysis}
+
+\begin{table}[h]
+\centering\small
+\caption{Labelled failures per version (codes E1 to E8, from \texttt{ERRORS.csv}).}
+\label{tab:\groupid-errors}
+\begin{tabular}{lcccccccc}
+\toprule
+Version & E1 & E2 & E3 & E4 & E5 & E6 & E7 & E8 \\
+\midrule
+M0+A0 & & & & & & & & \\
+Mx+Ax & & & & & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\todo{What the interaction and the failure counts tell you. Then two annotated traces, turn by turn:
+one success and one failure. Quote the memory read/write and the citations from the trace.}
+
+\section{Limitations and ethics}
+\todo{What the system must not be used for; where it was wrong in ways a lay user could not detect;
+every deviation from the fixed controls (or ``None'').}
+
+\section*{Contributions}
+\begin{itemize}[leftmargin=*,nosep]
+\item \todo{Member One: what they built, ran and wrote.}
+\item \todo{Member Two: ...}
+\item \todo{Member Three: ...}
+\end{itemize}
+
+\appendix
+\section{Appendix}
+\todo{Optional: extra tables, prompts by hash, more traces.}
+
+\end{document}

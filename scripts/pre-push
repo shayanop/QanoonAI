@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Git pre-push hook: the real-model regression test (Step 4).
+# Install once:  cp scripts/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+# Set your group and version below. Uses the hf backend unless QA_BACKEND is set.
+GROUP=${QA_GROUP:-G00}
+MEMORY=${QA_MEMORY:-M0}
+ADAPTER=${QA_ADAPTER:-A0}
+ARGS=""
+if [ -n "${QA_ADAPTER_PATH:-}" ]; then ARGS="--adapter-path $QA_ADAPTER_PATH"; fi
+echo "[pre-push] smoke test for $GROUP $MEMORY+$ADAPTER ..."
+python -m harness.smoke --group "$GROUP" --memory "$MEMORY" --adapter "$ADAPTER" $ARGS || {
+  echo "[pre-push] score dropped by more than the allowed tolerance. Push blocked."
+  echo "           Fix it, or accept the new score with --accept if the drop is intended (explain it in your report)."
+  exit 1
+}

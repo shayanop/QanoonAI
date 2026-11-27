@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+traces/
+submission/
+adapters/
+outputs/
+data_sft*.jsonl
+*.dpo_seed.jsonl
+.ipynb_checkpoints/
+report/*.aux
+report/*.log
+report/*.out

@@ -1,0 +1,2 @@
+config,seed,session_id,turn,code,secondary_code,note
+M0+A0,13,DEV-T3-0001,4,E3,,example row: delete it. Fact from turn 1 was outside the 2-turn window

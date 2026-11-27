@@ -1,0 +1,57 @@
+# QanoonArena fixed controls (AI-4016 Assignment 3)
+# DO NOT EDIT. Every group must run with exactly these values.
+# Any change must be logged in DEVIATIONS.md, otherwise your results are removed from the study.
+
+version: "1.0"
+
+model:
+  # The single pinned backbone for every group (Apache-2.0, fits QLoRA on a free Colab T4).
+  base_model: "Qwen/Qwen3-4B-Instruct-2507"
+  load_in_4bit: true          # used automatically when a CUDA GPU is present
+
+decoding:
+  temperature: 0.2
+  top_p: 0.9
+  max_new_tokens: 384
+
+context:
+  max_prompt_tokens: 3072     # hard cap on the whole prompt (system + memory + documents + message)
+  memory_budget_tokens: 768   # the most memory text that may enter the prompt
+  window_turns: 2             # M0 baseline: number of previous turns the bot can see
+
+retrieval:
+  method: "bm25"              # fixed retriever in harness/retriever.py
+  top_k: 5
+  chunk_chars: 1200           # long documents (judgments) are split into chunks of this size
+  bm25_k1: 1.5
+  bm25_b: 0.75
+
+training:
+  # Same budget for every A1 / A2 group
+  max_train_examples: 2000
+  epochs: 2
+  lora_r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  learning_rate: 0.0002
+  dpo_beta: 0.1
+  dpo_learning_rate: 0.00005
+  max_seq_len: 2048
+
+seeds: [13, 42, 2026]
+
+scoring:
+  # Composite score weights (Section 5 of the assignment)
+  weights:
+    accuracy: 0.35
+    citation_f1: 0.20
+    abstain_f1: 0.15
+    memory_recall: 0.15
+    efficiency: 0.15
+  regression_tolerance: 2.0   # automatic test fails if the smoke score drops by more than this
+
+paths:
+  corpus_dir: "harness/corpus"
+  data_dir: "harness/data"
+  results_dir: "results"
+  traces_dir: "traces"

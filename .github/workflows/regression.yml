@@ -1,0 +1,55 @@
+# Automatic test (Step 4): runs on every push and pull request.
+# GitHub's free runners have no GPU, so this job checks the PIPELINE with the mock
+# backend: your memory code runs without errors on the 30 smoke conversations, every
+# turn is fully traced, your Step 1 file is valid, and the mock smoke score has not
+# dropped. The real-model check runs on your machine through scripts/pre-push.
+#
+# Set these repository variables (Settings > Secrets and variables > Actions > Variables):
+#   QA_GROUP   your group id, e.g. G07
+#   QA_MEMORY  your memory type, e.g. M2
+name: regression
+
+on: [push, pull_request]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    env:
+      GROUP: ${{ vars.QA_GROUP || 'G00' }}
+      MEMORY: ${{ vars.QA_MEMORY || 'M0' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install (no GPU packages needed for the mock backend)
+        run: pip install "langgraph>=0.4,<2" pyyaml
+      - name: Harness is unchanged
+        run: |
+          FIRST=$(git rev-list --max-parents=0 HEAD | tail -1)
+          if ! git diff --quiet "$FIRST" HEAD -- harness/; then
+            echo "harness/ was modified. Revert it, or log the change in DEVIATIONS.md and tell the instructor."
+            git diff --stat "$FIRST" HEAD -- harness/
+            exit 1
+          fi
+      - name: Step 1 questions are valid
+        run: |
+          for f in contrib/*.jsonl; do
+            [ -e "$f" ] || continue
+            python -m harness.validate_sessions "$f" --contrib
+          done
+      - name: Smoke set, regression gate (mock backend)
+        # compares with the "<config>|mock" score you committed in results/accepted_smoke.json
+        # (create it once: python -m harness.smoke --group G07 --memory M2 --adapter A0 --backend mock --accept)
+        run: python -m harness.smoke --group "$GROUP" --memory "$MEMORY" --adapter A0 --backend mock
+      - name: Traces are complete
+        run: python -m harness.trace_export --group "$GROUP"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-results
+          path: |
+            results/
+            submission/

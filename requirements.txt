@@ -1,0 +1,10 @@
+# QanoonArena runtime (agent, harness, hf backend)
+langgraph>=0.4,<2
+pyyaml>=6
+torch>=2.3
+transformers>=4.51          # Qwen3 support
+accelerate>=0.30
+peft>=0.13
+bitsandbytes>=0.43; platform_system == "Linux"
+# optional, for Langfuse / Arize Phoenix dashboards:
+#   pip install opentelemetry-sdk opentelemetry-exporter-otlp
