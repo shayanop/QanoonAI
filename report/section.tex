@@ -1,0 +1,65 @@
+% =====================================================================
+% QanoonArena - AI-4016 Assignment 3 - Step 6 paper section template
+% Copy to report/section.tex, fill in, and compile:  pdflatex section.tex
+% Keep the headings, table layouts and macros: your section is merged
+% into the class paper as it is. Limit: 3 pages plus appendix.
+% =====================================================================
+
+\\documentclass[11pt]{article}
+\\usepackage[a4paper,margin=2.2cm]{geometry}
+\\usepackage[T1]{fontenc}
+\\usepackage{mathptmx}          % Times
+\\usepackage{booktabs}
+\\usepackage{graphicx}
+\\usepackage{xcolor}
+\\usepackage[hidelinks]{hyperref}
+\\usepackage{enumitem}
+
+% ---- fill these in ---------------------------------------------------
+\\newcommand{\\groupid}{G10}
+\\newcommand{\\memtype}{M1 (rolling summary memory)}
+\\newcommand{\\traintype}{A2 (QLoRA SFT + DPO)}
+\\newcommand{\\members}{Shayan Ahmed, Momin Munir, AbdurRehman Ahmed}
+% ----------------------------------------------------------------------
+\\newcommand{\\todo}[1]{\\textcolor{red}{[TODO: #1]}}
+
+\\title{QanoonArena: \\memtype{} with \\traintype{}\\\\[2pt]\\large Group \\groupid{}}
+\\author{\\members}
+\\date{AI-4016 Agentic AI, Fall 2026, FAST-NUCES Islamabad}
+
+\\begin{document}
+\\maketitle
+
+\\section{Method}
+\\label{sec:\\groupid-method}
+
+\\subsection{Memory}
+\\input{parts/memory}
+
+\\subsection{Training}
+\\input{parts/training}
+
+\\subsection{Citation monitor}
+\\input{parts/monitor}
+
+\\section{Results}
+\\label{sec:\\groupid-results}
+
+\\input{parts/results}
+
+\\section{Analysis}
+\\label{sec:\\groupid-analysis}
+
+\\input{parts/analysis}
+
+\\section{Limitations and ethics}
+\\input{parts/limitations}
+
+\\section*{Contributions}
+\\begin{itemize}[leftmargin=*,nosep]
+\\input{parts/contrib_A}
+\\input{parts/contrib_B}
+\\input{parts/contrib_C}
+\\end{itemize}
+
+\\end{document}

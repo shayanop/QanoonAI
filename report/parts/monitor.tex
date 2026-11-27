@@ -1,0 +1,9 @@
+% Monitor description
+
+The runtime citation monitor, implemented in ``agent/cite_check.py``, enforces a strict drop policy: any citation ID that is not present in the corpus or not listed among the turn's ``allowed_ids`` (the union of retrieved documents and memory entries) is removed from the answer. This eliminates false‑positive citations while preserving recall for legitimately retrieved sources, because all valid citations are guaranteed to be in ``allowed_ids``.
+
+The CI regression gate defined in ``.github/workflows/regression.yml`` ensures the integrity of the ``harness/`` package (immutability), validates the schema of Step 1, checks that all traces are complete, and runs a 30‑session mock smoke test. A score drop greater than 2.0 points compared to the reference stored in ``results/accepted_smoke.json`` causes the workflow to fail.
+
+The ``scripts/pre-push`` hook runs a real‑model (``hf`` backend) smoke check before pushes, aborting if the test fails.
+
+OpenTelemetry tracing is enabled via Langfuse Cloud, capturing the five LangGraph spans for each turn: ``memory_read``, ``retrieve``, ``generate``, ``cite_check``, and ``memory_write``.

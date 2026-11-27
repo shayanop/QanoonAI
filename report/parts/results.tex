@@ -1,0 +1,27 @@
+% Results tables and placeholders
+
+% Main 2x2 table (dev split)
+\\input{tables/table_2x2_dev}
+
+% Effects paragraph (placeholders for memory, training, interaction effects)
+\\paragraph{Effects.} \todo{memory effect (+x.xx [a, b])} points. \todo{training effect (+x.xx [a, b])} points. \todo{interaction (+x.xx [a, b])} points.
+
+% Ablation table and additional content
+\\input{parts/ablation}
+
+% Cost table with placeholders
+\\begin{table}[h]
+\\centering\\small
+\\caption{Cost of each version.}
+\\label{tab:G10-cost}
+\\begin{tabular}{lccc}
+\\toprule
+Version \& Latency p50 (ms) \& Latency p95 (ms) \& Training GPU-hours \\\\
+\\midrule
+M0+A0 \& \todo{latency p50} \& \todo{latency p95} \& 0 \\\\
+M1+A0 \& \todo{latency p50} \& \todo{latency p95} \& 0 \\\\
+M0+A2 \& \todo{latency p50} \& \todo{latency p95} \& \todo{GPU-hours} \\\\
+M1+A2 \& \todo{latency p50} \& \todo{latency p95} \& \todo{GPU-hours} \\\\
+\\bottomrule
+\\end{tabular}
+\\end{table}

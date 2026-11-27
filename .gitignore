@@ -11,3 +11,7 @@ data_sft*.jsonl
 report/*.aux
 report/*.log
 report/*.out
+
+results/G10MOCK_*
+results/*_smoke_s*
+secret_test_questions.jsonl

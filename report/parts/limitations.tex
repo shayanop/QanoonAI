@@ -1,0 +1,6 @@
+% Limitations and ethics
+
+1. This work is a research prototype and should not be construed as legal advice. It relies on a static corpus containing the Pakistani 7‑Act code and the Sindh High Court decisions.
+2. Failure modes invisible to lay users include citing a correctly retrieved section from the wrong Act or mis‑interpreting statutory exceptions, which can lead to misleading answers.
+3. The rolling summary memory introduces compression drift, and the DPO abstention fraction (ABSTAIN_FRAC=0.2) trades off recall for safety. \todo{cross‑check final notes from MEMORY.md and MODEL_CARD.md}.
+4. Documented deviations: memory‑budget ablation runs (\texttt{QA\_M1\_BUDGET}=256/128) under group IDs G10ABL256/G10ABL128, and the DPO abstention fraction of 0.2; no changes were made to ``harness/config.yaml``.
